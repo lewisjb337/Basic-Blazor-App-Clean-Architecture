@@ -11,7 +11,7 @@ public class HTTPClientService : IHttpClientService
     public HTTPClientService(IHttpClientFactory httpClientFactory)
     {
         HttpClient = httpClientFactory.CreateClient();
-        HttpClient.BaseAddress = new Uri("https://localhost:7238/");
+        HttpClient.BaseAddress = new Uri("https://localhost:YOUR_SWAGGER_PORT/");
     }
 
     public async Task<IEnumerable<Type>> GetEnumerable<Type>(string uri)
