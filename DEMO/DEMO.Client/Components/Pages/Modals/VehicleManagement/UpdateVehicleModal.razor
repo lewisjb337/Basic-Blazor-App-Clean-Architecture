@@ -1,0 +1,27 @@
+﻿@using DEMO.Client.Components.Pages.SubComponents;
+
+<Modal @ref="_modal" Title="Update Vehicle" ButtonColor="btn-warning" ActionName="Create"
+       OnAction="async () => await Update()" OnModalClosed="OnModalClosed" IsDisabled="IsDisabled">
+    <BodyContent>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="makeInput" placeholder="Ford" @bind="Make">
+            <label for="makeInput">Make</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="modelInput" placeholder="Fiesta" @bind="Model">
+            <label for="modelInput">Model</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="yearInput" placeholder="2010" @bind="Year">
+            <label for="yearInput">Year</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="mileageInput" placeholder="70,000" @bind="Mileage">
+            <label for="mileageInput">Mileage</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="ownersInput" placeholder="7" @bind="Owners">
+            <label for="ownersInput">Owners</label>
+        </div>
+    </BodyContent>
+</Modal>

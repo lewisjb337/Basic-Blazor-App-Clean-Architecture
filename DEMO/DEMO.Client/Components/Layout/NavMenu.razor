@@ -1,0 +1,98 @@
+﻿@inject NavigationManager NavigationManager
+
+<style>
+    .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+        background-color: #213c56 !important;
+        font-weight: 700 !important;
+    }
+
+        .nav-pills .nav-link.active .nav-link-text {
+            color: #0d6efd !important;
+        }
+
+        .nav-pills .nav-link.active i {
+            color: #0d6efd !important;
+        }
+
+    .nav-link:hover {
+        background-color: #213c56 !important;
+    }
+</style>
+
+<div class="d-flex flex-column flex-shrink-0 p-3 navigation-sidebar">
+    <a href="/" class="d-flex align-items-center text-white text-decoration-none">
+        <h3 class="navigation-title">
+            DEMO
+        </h3>
+    </a>
+
+    <AuthorizeView>
+        <Authorized>
+            <ul class="nav nav-pills flex-column mb-auto pt-4">
+                <li class="sidebar-subtitle text-muted fw-bold">DASHBOARD</li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+                        <i class="fa-solid fa-house"></i>
+                        <span class="nav-link-text">Home</span>
+                    </NavLink>
+                </li>
+            </ul>
+            <hr />
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <NavLink class="nav-link test" href="/Account/Manage" Match="NavLinkMatch.Prefix">
+                        <i class="fa-regular fa-circle-user" style="color: #0d6efd !important;"></i>
+                        <span class="nav-link-text">Account</span>
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <form class="w-100" action="Account/Logout" method="post">
+                        <AntiforgeryToken />
+                        <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                        <button type="submit" class="nav-link logout-btn">
+                            <i class="fa-solid fa-right-from-bracket" style="color: #0d6efd !important;"></i>
+                            <span class="nav-link-text">Logout</span>
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </Authorized>
+        <NotAuthorized>
+            <ul class="nav nav-pills flex-column mb-auto pt-4">
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/Account/Login" Match="NavLinkMatch.All">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <span class="nav-link-text">Login</span>
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/Account/Register" Match="NavLinkMatch.All">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span class="nav-link-text">Register</span>
+                    </NavLink>
+                </li>
+            </ul>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
+
+@code {
+    private string? currentUrl;
+
+    protected override void OnInitialized()
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}

@@ -1,0 +1,8 @@
+﻿@using DEMO.Client.Components.Pages.SubComponents;
+
+<Modal @ref="_modal" Title="Delete Vehicle" ButtonColor="btn-danger" ActionName="Confirm"
+       OnAction="async () => await Delete()" OnModalClosed="OnModalClosed" IsDisabled="isDisabled">
+    <BodyContent>
+        Are you sure you would like to delete this entry, this action is irreversible?
+    </BodyContent>
+</Modal>

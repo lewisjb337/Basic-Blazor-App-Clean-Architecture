@@ -1,0 +1,72 @@
+﻿@page "/"
+
+@using DEMO.Client.Components.Pages.Modals.VehicleManagement
+@using DEMO.Client.Components.Pages.SubComponents
+@using DEMO.Client.Extensions
+
+@rendermode InteractiveServer
+
+<CreateVehicleModal @ref="Create" OnModalClosed="Refresh"></CreateVehicleModal>
+<UpdateVehicleModal @ref="Update" OnModalClosed="Refresh"></UpdateVehicleModal>
+<DeleteVehicleModal @ref="Delete" OnModalClosed="Refresh"></DeleteVehicleModal>
+
+<PageLayout PageLink="/Dashboard" PageTitle="Dashboard" Breadcrumb="Dashboard">
+	<LoadDataAsync Data="LoadData">
+		<BodyContent>
+            <div class="card custom-card">
+                <div class="card-body">
+                    <div class="d-flex mb-3">
+                        <h3 class="card-title"><i class="fa-solid fa-car"></i> <span class="cardTitle">Vehicles</span></h3>
+                        <input class="form-control w-25 customSearchbar" type="search" @bind="SearchText" @bind:event="oninput" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-primary" @onclick="async () => await Create.Open()"><i class="fa-solid fa-plus"></i> New Vehicle</button>
+                    </div>
+                    @if (Vehicles is not null && Vehicles.Any())
+                    {
+                        <table class="table customTable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Make</th>
+                                    <th scope="col">Model</th>
+                                    <th scope="col">Year</th>
+                                    <th scope="col">Mileage</th>
+                                    <th scope="col">Owners</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var vehicle in Vehicles.Filter(SearchText, x => x.Make).OrderByDescending(x => x.Make).Reverse())
+                                {
+                                    <tr>
+                                        <td>@vehicle.Make</td>
+                                        <td>@vehicle.Model</td>
+                                        <td>@vehicle.Year</td>
+                                        <td>@vehicle.Mileage</td>
+                                        <td>@vehicle.Owners</td>
+                                        <td>
+                                            <button class="icon-btn" @onclick="@(async () => await Update.Open(vehicle))">
+                                                <i class="fa-solid fa-pen"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button class="icon-btn" @onclick="@(async () => await Delete.Open(vehicle.Id))">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="text-center" style="margin: 7rem auto;">
+                            <h3 style="color: #d32f2f;">You currently have no vehicles</h3>
+                            <button class="btn btn-primary custom-btn-outline mt-2" @onclick="async () => await Create.Open()"><i class="fa-solid fa-plus"></i> New Vehicle</button>
+                        </div>
+                    }
+                </div>
+            </div>
+		</BodyContent>
+	</LoadDataAsync>
+</PageLayout>
