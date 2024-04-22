@@ -1,5 +1,5 @@
 # Blazor-Clean-Architecture
- This application is an example of using Clean Architecture with the Blazor framework, utlising the CQRS Pattern & MediatR for component communication, a custom notification system for these requests, and identity user authentication and authorization. As well as Entity 
+ This application is an example of using Clean Architecture with the Blazor framework, utilizing the CQRS Pattern & MediatR for component communication, a custom notification system for these requests, and identity user authentication and authorization. As well as Entity 
  Framework for command hanling and Dapper for query handling. 
 
 ## Project Setup
